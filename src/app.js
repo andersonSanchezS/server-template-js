@@ -27,7 +27,7 @@ app.set('view engine', 'ejs');
 // Api routes
 app.use('/api', apiRoutes);
 // Views routes
-app.use('/views', renderRoutes);
+app.use('/', renderRoutes);
 // To handle the wrong routes
 app.all('*', (req, res, next) => {
   next(
