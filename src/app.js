@@ -3,8 +3,9 @@ const morgan = require('morgan');
 const cors = require('cors');
 const apiRoutes = require('./routes/routes');
 const renderRoutes = require('./routes/renders');
-const { ErrorHandler } = require('./exceptions/errorHandler');
-const { HttpException } = require('./exceptions/httpException');
+const ErrorHandler = require('./exceptions/errorHandler');
+const HttpException = require('./exceptions/httpException');
+const path = require('path');
 
 // Environment variables
 require('dotenv').config({ path: '../env/.env' });
@@ -20,6 +21,9 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 // Get the logs
 app.use(morgan('dev'));
+// Views engine
+app.set('views', path.join(__dirname, '/views'));
+app.set('view engine', 'ejs');
 // Api routes
 app.use('/api', apiRoutes);
 // Views routes
@@ -37,5 +41,5 @@ app.all('*', (req, res, next) => {
 app.use(ErrorHandler);
 
 // Server init
-app.listen(process.env.PORT);
-console.log(`server running on port ${process.env.PORT}`);
+app.listen(process.env.PORT || 7000);
+console.log(`server running on port ${process.env.PORT || 7000}`);
